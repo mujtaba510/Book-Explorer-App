@@ -28,8 +28,14 @@ Before you begin, ensure you have the following installed:
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
+   ```
+
+3. Run tests to verify setup:
+   ```bash
+   npm test
    ```
 
 ## Running the App
@@ -64,6 +70,10 @@ book-explorer-app/
 ├── assets/                          # App icons and images
 ├── src/
 │   ├── components/                  # Reusable UI components
+│   │   ├── __tests__/               # Unit tests for components
+│   │   │   ├── BookItem.test.tsx
+│   │   │   ├── SearchBar.test.tsx
+│   │   │   └── StarRating.test.tsx
 │   │   ├── BookDetailImage.tsx
 │   │   ├── BookDetailText.tsx
 │   │   ├── BookItem.tsx
@@ -81,6 +91,7 @@ book-explorer-app/
 ├── App.tsx                          # Main app component
 ├── app.json                         # Expo configuration
 ├── index.ts                         # Entry point
+├── jest.config.js                   # Jest configuration for testing
 ├── package.json                     # Dependencies and scripts
 └── tsconfig.json                    # TypeScript configuration
 ```
@@ -91,4 +102,5 @@ book-explorer-app/
 - Expo
 - TypeScript
 - React Navigation
+- Jest (for testing)
 - Open Library API
