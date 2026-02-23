@@ -53,6 +53,10 @@ Before you begin, ensure you have the following installed:
 
 3. Scan the QR code with the Expo Go app on your mobile device, or use an emulator.
 
+## Download APK
+
+Download the latest APK build directly: [Book Explorer APK](https://expo.dev/accounts/ghulam_mujtaba/projects/book-explorer/builds/c58a3654-ee56-4434-bc70-7e0d8c4212de)
+
 ## Usage
 
 - **Home Screen**: Upon opening the app, you'll see a list of popular mystery and thriller books. Tap on any book to view its details.
