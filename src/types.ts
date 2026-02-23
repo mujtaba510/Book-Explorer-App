@@ -4,6 +4,7 @@ export interface Book {
   author_name?: string[];
   first_publish_year?: number;
   cover_i?: number;
+  isbn?: string[];
   // Add more fields if needed
 }
 

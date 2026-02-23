@@ -11,7 +11,15 @@ export const fetchBooks = async (query?: string): Promise<Book[]> => {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
     const data = await res.json();
-    return data.docs;
+    // Extract all ISBNs from 'ia' array for each doc
+    const booksWithIsbn = data.docs.map((doc: any) => ({
+      ...doc,
+      isbn:
+        doc.ia
+          ?.filter((id: string) => id.startsWith("isbn_"))
+          .map((id: string) => id.replace("isbn_", "")) || [],
+    }));
+    return booksWithIsbn;
   } catch (error) {
     console.error("Error fetching books:", error);
     throw error;
@@ -38,5 +46,21 @@ export const fetchBookDetails = async (workKey: string) => {
   return {
     description: description ?? null,
     subjects: data.subjects ?? [],
+  };
+};
+
+export const fetchBookRatings = async (isbn: string) => {
+  const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`HTTP error fetching ratings: ${res.status}`);
+  const data = await res.json();
+  const volume = data.items?.[0];
+  if (!volume) return { averageRating: null, ratingsCount: 0, reviews: [] };
+  const { averageRating, ratingsCount } = volume.volumeInfo;
+  const reviews = volume.volumeInfo.reviews || [];
+  return {
+    averageRating: averageRating || null,
+    ratingsCount: ratingsCount || 0,
+    reviews,
   };
 };

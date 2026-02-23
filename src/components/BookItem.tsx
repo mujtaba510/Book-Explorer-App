@@ -2,17 +2,20 @@ import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Book } from "../types";
 import { getCoverUrl } from "../services/booksApi";
+import StarRating from "./StarRating";
 
 interface BookItemProps {
   item: Book;
   onPress?: () => void;
   showAuthor?: boolean;
+  ratings?: { averageRating: number | null; ratingsCount: number };
 }
 
 const BookItem: React.FC<BookItemProps> = ({
   item,
   onPress,
   showAuthor = true,
+  ratings,
 }) => {
   const year = item.first_publish_year
     ? item.first_publish_year.toString()
@@ -42,6 +45,14 @@ const BookItem: React.FC<BookItemProps> = ({
               Author: {item.author_name?.join(", ") || "Unknown"}
             </Text>
             <Text style={styles.bookDetail}>Year: {year}</Text>
+            {ratings && ratings.averageRating && (
+              <StarRating
+                rating={ratings.averageRating}
+                size={14}
+                showRating={true}
+                reviewCount={ratings.ratingsCount}
+              />
+            )}
           </>
         )}
       </View>

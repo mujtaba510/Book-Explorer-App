@@ -11,7 +11,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Book, RootStackParamList } from "../types";
 import Header from "../components/Header";
 import BookItem from "../components/BookItem";
-import { fetchBooks } from "../services/booksApi";
+import { fetchBooks, fetchBookRatings } from "../services/booksApi";
 
 function HomeScreen({
   navigation,
@@ -19,14 +19,48 @@ function HomeScreen({
   navigation: NativeStackNavigationProp<RootStackParamList>;
 }) {
   const [books, setBooks] = useState<Book[]>([]);
+  const [ratings, setRatings] = useState<{
+    [key: string]: { averageRating: number | null; ratingsCount: number };
+  }>({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadBooks = async () => {
       setLoading(true);
       try {
-        const books = await fetchBooks();
-        setBooks(books);
+        const fetchedBooks = await fetchBooks();
+        setBooks(fetchedBooks);
+        // Fetch ratings for each book
+        const ratingsPromises = fetchedBooks.map(async (book) => {
+          if (book.isbn && book.isbn.length > 0) {
+            try {
+              const ratingData = await fetchBookRatings(book.isbn[0]);
+              return {
+                key: book.key,
+                ratings: {
+                  averageRating: ratingData.averageRating,
+                  ratingsCount: ratingData.ratingsCount,
+                },
+              };
+            } catch (e) {
+              console.warn("Failed to fetch ratings for", book.title, e);
+              return {
+                key: book.key,
+                ratings: { averageRating: null, ratingsCount: 0 },
+              };
+            }
+          }
+          return {
+            key: book.key,
+            ratings: { averageRating: null, ratingsCount: 0 },
+          };
+        });
+        const ratingsResults = await Promise.all(ratingsPromises);
+        const ratingsMap = ratingsResults.reduce((acc, { key, ratings }) => {
+          acc[key!] = ratings;
+          return acc;
+        }, {} as any);
+        setRatings(ratingsMap);
       } catch (err) {
         Alert.alert("Error", "Failed to load books. Please try again.");
         console.error(err);
@@ -41,6 +75,7 @@ function HomeScreen({
     <BookItem
       item={item}
       onPress={() => navigation.navigate("BookDetail", { book: item })}
+      ratings={ratings[item.key!]}
     />
   );
 
