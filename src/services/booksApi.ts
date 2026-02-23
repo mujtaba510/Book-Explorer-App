@@ -11,7 +11,7 @@ export const fetchBooks = async (query?: string): Promise<Book[]> => {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
     const data = await res.json();
-    // Extract all ISBNs from 'ia' array for each doc
+    
     const booksWithIsbn = data.docs.map((doc: any) => ({
       ...doc,
       isbn:

@@ -5,7 +5,6 @@ export interface Book {
   first_publish_year?: number;
   cover_i?: number;
   isbn?: string[];
-  // Add more fields if needed
 }
 
 export type RootStackParamList = {
