@@ -61,9 +61,9 @@ This app uses the [Open Library API](https://openlibrary.org/developers/api) to 
 
 ```
 book-explorer-app/
-├── assets/                 # App icons and images
+├── assets/                          # App icons and images
 ├── src/
-│   ├── components/         # Reusable UI components
+│   ├── components/                  # Reusable UI components
 │   │   ├── BookDetailImage.tsx
 │   │   ├── BookDetailText.tsx
 │   │   ├── BookItem.tsx
@@ -71,18 +71,18 @@ book-explorer-app/
 │   │   ├── SearchBar.tsx
 │   │   ├── SearchBookItem.tsx
 │   │   └── StarRating.tsx
-│   ├── screens/            # App screens
+│   ├── screens/                     # App screens
 │   │   ├── BookDetailScreen.tsx
 │   │   ├── HomeScreen.tsx
 │   │   └── SearchScreen.tsx
-│   ├── services/           # API services
+│   ├── services/                    # API services
 │   │   └── booksApi.ts
-│   └── types.ts            # TypeScript type definitions
-├── App.tsx                 # Main app component
-├── app.json                # Expo configuration
-├── index.ts                # Entry point
-├── package.json            # Dependencies and scripts
-└── tsconfig.json           # TypeScript configuration
+│   └── types.ts                     # TypeScript type definitions
+├── App.tsx                          # Main app component
+├── app.json                         # Expo configuration
+├── index.ts                         # Entry point
+├── package.json                     # Dependencies and scripts
+└── tsconfig.json                    # TypeScript configuration
 ```
 
 ## Technologies Used
