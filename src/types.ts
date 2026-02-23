@@ -1,14 +1,10 @@
 export interface Book {
-  id?: string;
-  volumeInfo: {
-    title: string;
-    authors?: string[];
-    publishedDate?: string;
-    imageLinks?: {
-      thumbnail?: string;
-    };
-    description?: string;
-  };
+  key?: string;
+  title: string;
+  author_name?: string[];
+  first_publish_year?: number;
+  cover_i?: number;
+  // Add more fields if needed
 }
 
 export type RootStackParamList = {

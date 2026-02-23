@@ -1,6 +1,6 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Book } from '../types';
+import React from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Book } from "../types";
 
 interface SearchBookItemProps {
   item: Book;
@@ -8,23 +8,23 @@ interface SearchBookItemProps {
 }
 
 const SearchBookItem: React.FC<SearchBookItemProps> = ({ item, onPress }) => {
-  const info = item.volumeInfo;
-
   return (
     <TouchableOpacity onPress={onPress} style={styles.item}>
-      <Text style={styles.title}>{info.title}</Text>
-      <Text style={styles.author}>by {info.authors?.join(', ') || 'Unknown'}</Text>
+      <Text style={styles.title}>{item.title}</Text>
+      <Text style={styles.author}>
+        by {item.author_name?.join(", ") || "Unknown"}
+      </Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 10,
     padding: 16,
     marginVertical: 8,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 6,
@@ -32,13 +32,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: '700',
-    color: '#2FB78E',
+    fontWeight: "700",
+    color: "#2FB78E",
     marginBottom: 4,
   },
   author: {
     fontSize: 14,
-    color: '#9D9D9D',
+    color: "#9D9D9D",
   },
 });
 

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useState, useEffect } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
   StyleSheet,
   View,
@@ -7,17 +7,21 @@ import {
   ActivityIndicator,
   Text,
   Alert,
-} from 'react-native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Book, RootStackParamList } from '../types';
-import Header from '../components/Header';
-import SearchBar from '../components/SearchBar';
-import SearchBookItem from '../components/SearchBookItem';
-import { fetchBooks } from '../services/booksApi';
+} from "react-native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Book, RootStackParamList } from "../types";
+import Header from "../components/Header";
+import SearchBar from "../components/SearchBar";
+import SearchBookItem from "../components/SearchBookItem";
+import { fetchBooks } from "../services/booksApi";
 
-function SearchScreen({ navigation }: { navigation: NativeStackNavigationProp<RootStackParamList> }) {
-  const [query, setQuery] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
+function SearchScreen({
+  navigation,
+}: {
+  navigation: NativeStackNavigationProp<RootStackParamList>;
+}) {
+  const [query, setQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -36,7 +40,7 @@ function SearchScreen({ navigation }: { navigation: NativeStackNavigationProp<Ro
           const books = await fetchBooks(debouncedQuery);
           setBooks(books);
         } catch (err) {
-          Alert.alert('Error', 'Failed to search books. Please try again.');
+          Alert.alert("Error", "Failed to search books. Please try again.");
           console.error(err);
         } finally {
           setLoading(false);
@@ -49,7 +53,10 @@ function SearchScreen({ navigation }: { navigation: NativeStackNavigationProp<Ro
   }, [debouncedQuery]);
 
   const renderBook = ({ item }: { item: Book }) => (
-    <SearchBookItem item={item} onPress={() => navigation.navigate('BookDetail', { book: item })} />
+    <SearchBookItem
+      item={item}
+      onPress={() => navigation.navigate("BookDetail", { book: item })}
+    />
   );
 
   return (
@@ -59,11 +66,15 @@ function SearchScreen({ navigation }: { navigation: NativeStackNavigationProp<Ro
         <Text style={styles.searchHeading}>Search Book</Text>
         <SearchBar value={query} onChangeText={setQuery} />
         {loading ? (
-          <ActivityIndicator size="large" color="#4f46e5" style={{ flex: 1, justifyContent: 'center' }} />
+          <ActivityIndicator
+            size="large"
+            color="#4f46e5"
+            style={{ flex: 1, justifyContent: "center" }}
+          />
         ) : (
           <FlatList
             data={books}
-            keyExtractor={(item, idx) => item.id ?? String(idx)}
+            keyExtractor={(item, idx) => item.key ?? String(idx)}
             renderItem={renderBook}
             contentContainerStyle={styles.searchListContainer}
             showsVerticalScrollIndicator={false}
@@ -77,18 +88,18 @@ function SearchScreen({ navigation }: { navigation: NativeStackNavigationProp<Ro
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: '#f3f6fb',
+    backgroundColor: "#f3f6fb",
   },
   searchContainer: {
     flex: 1,
     padding: 40,
-    backgroundColor: '#f3f6fb',
+    backgroundColor: "#f3f6fb",
   },
   searchHeading: {
     fontSize: 24,
-    fontWeight: '700',
-    color: '#111827',
-    textAlign: 'center',
+    fontWeight: "700",
+    color: "#111827",
+    textAlign: "center",
     marginBottom: 20,
   },
   searchListContainer: {

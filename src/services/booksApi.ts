@@ -1,9 +1,9 @@
-import { Book } from '../types';
+import { Book } from "../types";
 
 export const fetchBooks = async (query?: string): Promise<Book[]> => {
-  const baseUrl = 'https://www.googleapis.com/books/v1/volumes';
-  const searchQuery = query ? encodeURIComponent(query) : 'mystery+thriller';
-  const url = `${baseUrl}?q=${searchQuery}&maxResults=20`;
+  const baseUrl = "https://openlibrary.org/search.json";
+  const searchQuery = query ? encodeURIComponent(query) : "mystery+thriller";
+  const url = `${baseUrl}?q=${searchQuery}&limit=20`;
 
   try {
     const res = await fetch(url);
@@ -11,9 +11,32 @@ export const fetchBooks = async (query?: string): Promise<Book[]> => {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
     const data = await res.json();
-    return data.items || [];
+    return data.docs;
   } catch (error) {
-    console.error('Error fetching books:', error);
-    throw error; // Re-throw to let caller handle
+    console.error("Error fetching books:", error);
+    throw error;
   }
+};
+
+export const getCoverUrl = (
+  cover_i?: number,
+  size: "S" | "M" | "L" = "M",
+): string | undefined => {
+  if (!cover_i) return undefined;
+  return `https://covers.openlibrary.org/b/id/${cover_i}-${size}.jpg`;
+};
+
+export const fetchBookDetails = async (workKey: string) => {
+  const url = `https://openlibrary.org${workKey}.json`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`HTTP error fetching work: ${res.status}`);
+  const data = await res.json();
+  const description =
+    typeof data.description === "string"
+      ? data.description
+      : data.description?.value;
+  return {
+    description: description ?? null,
+    subjects: data.subjects ?? [],
+  };
 };
