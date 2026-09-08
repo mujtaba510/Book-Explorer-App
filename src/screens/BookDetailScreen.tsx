@@ -65,6 +65,7 @@ function BookDetailScreen({
         <Text style={styles.detailAuthor}>
           {book.author_name?.join(", ") || "Unknown"}
         </Text>
+        
         <Text style={styles.detailYear}>
           Published in {book.first_publish_year || "Unknown"}
         </Text>
